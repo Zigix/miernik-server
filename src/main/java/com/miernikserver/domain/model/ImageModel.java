@@ -21,7 +21,7 @@ public class ImageModel {
 
     private String location;
 
-    @CollectionTable
+    @CollectionTable(name = "images_votes")
     @ElementCollection
     private List<Integer> votes = new ArrayList<>();
 }

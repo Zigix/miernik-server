@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+img {
+    width: 50%;
+    height: 50%;
+    display: block;
+    border-radius: 10%;
+}
+
+.button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 12px;
+    cursor: pointer;
+    width: 20%;
+}
+
+#yes {
+    background-image: url("DOBRZE.svg");
+    background-repeat: no-repeat;
+}
+
+#no {
+    background-image: url("ZLE.svg");
+    background-repeat: no-repeat;
+}

@@ -8,6 +8,15 @@ body {
     font-family: Arial, sans-serif;
 }
 
+p {
+    text-align: center;
+    padding: 20px;
+}
+
+.icons-container {
+    text-align: center;
+}
+
 img {
     width: 50%;
     height: 50%;
@@ -26,6 +35,24 @@ img {
     font-size: 12px;
     cursor: pointer;
     width: 20%;
+}
+
+.icon {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 20%;
+}
+
+#start {
+    width: 15%;
+    background-color: #4dff4d;
+    padding: 1%;
+    font-size: 20px;
+    color: aliceblue;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
 }
 
 #yes {

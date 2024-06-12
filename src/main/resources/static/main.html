@@ -2,15 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Miernik sztuki</title>
 
+    <link rel="stylesheet" href="main.css">
     <script src="main.js"></script>
 </head>
 <body>
 
-<h1>Fetch API Image Example</h1>
-<div id="image-container"></div>
-<a href="test.html">START</a>
+<h2>Miernik sztuki Alpha 2</h2>
+<p>
+    Na podstawie zdjęcia oceń na ile przedstawione działanie / rzecz może być sztuką.
+    <br><br>
+    Postaraj się odwołać do swojej wrażliwosci, to nie test, pozwól sobie spojrzeć na rzeczy inaczej.
+</p>
+
+<div class="icons-container">
+    <svg id="yes" class="icon"></svg>
+    <svg id="no" class="icon"></svg>
+</div>
+
+<p>
+    Oceny dokonaj na podstawie emoji, pamiętaj, że masz być szczery.
+    <br>
+    Jesli "mona lisa" nie jest dla ciebie dziełem sztuki, własnie tak dokonaj wyboru.
+    <br><br>
+    TO NIE JEST TEST
+</p>
+
+<button id="start" onclick="window.location.href = 'image-vote.html'">START</button>
 
 </body>
 </html>

@@ -1,28 +1,45 @@
 const BASIC_DOMAIN = "http://localhost:8080";
 
 const VOTE_RESULT_KEY = "voteResult";
+const IMAGES_IDS_KEY = "imagesIds";
+const CURRENT_INDEX_KEY = "currentIndex";
 
-imagesIds = [];
-currentIndex = 0;
+function getImagesIdsListFromStorage() {
+    return JSON.parse(localStorage.getItem(IMAGES_IDS_KEY));
+}
+
+function getCurrentIndexFromStorage() {
+    return parseInt(localStorage.getItem(CURRENT_INDEX_KEY));
+}
+
+function updateCurrentIndexInStorage(value) {
+    localStorage.removeItem(CURRENT_INDEX_KEY);
+    localStorage.setItem(CURRENT_INDEX_KEY, JSON.stringify(value));
+}
+
 
 window.onload = async function () {
-    imagesIds = await getRandomImagesIdList();
+    const imagesIds = await getRandomImagesIdList();
+    const currentIndex = 0;
+    localStorage.setItem(IMAGES_IDS_KEY, JSON.stringify(imagesIds));
+    localStorage.setItem(CURRENT_INDEX_KEY, JSON.stringify(currentIndex));
     localStorage.setItem(VOTE_RESULT_KEY, JSON.stringify([]));
+
     await loadImageWithVotes(imagesIds[currentIndex]);
 }
 
 async function loadImageWithVotes(imageId) {
-    const imageElement = document.getElementById("image");
-    const yesVoteButtonElement = document.getElementById("yes");
-    const noVoteButtonElement = document.getElementById("no");
+    const imageElement = $("#image");
+    const yesVoteButtonElement = $("#yes");
+    const noVoteButtonElement = $("#no");
 
-    imageElement.src = await fetchImage(imageId);
+    imageElement.attr("src", await fetchImage(imageId));
 
-    yesVoteButtonElement.removeEventListener('click', async () => await vote(imageId, 1));
-    noVoteButtonElement.removeEventListener('click', async () => await vote(imageId, 0));
+    yesVoteButtonElement.off();
+    noVoteButtonElement.off();
 
-    yesVoteButtonElement.addEventListener('click', async () => await vote(imageId, 1));
-    noVoteButtonElement.addEventListener('click', async () => await vote(imageId, 0));
+    yesVoteButtonElement.on('click', async () => await vote(imageId, 1));
+    noVoteButtonElement.on('click', async () => await vote(imageId, 0));
 }
 
 async function getRandomImagesIdList() {
@@ -42,13 +59,15 @@ async function vote(imageId, value) {
         "vote": value
     };
     const voteResults = JSON.parse(localStorage.getItem(VOTE_RESULT_KEY));
+    let currentIndex = getCurrentIndexFromStorage();
+    let imagesIds = getImagesIdsListFromStorage();
 
     voteResults.push(result);
     localStorage.setItem(VOTE_RESULT_KEY, JSON.stringify(voteResults));
 
     if (currentIndex < imagesIds.length) {
         await loadImageWithVotes(imagesIds[currentIndex]);
-        currentIndex++;
+        updateCurrentIndexInStorage(currentIndex + 1);
     } else {
         await sendVotesResult();
         window.location.href = 'main.html';

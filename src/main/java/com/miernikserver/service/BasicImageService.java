@@ -8,13 +8,14 @@ import com.miernikserver.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +35,7 @@ public class BasicImageService implements ImageService {
 
     @Override
     @Transactional
-    public void uploadImage(MultipartFile imageFile) {
+    public void uploadImage(MultipartFile imageFile, String category) {
         try (ZipInputStream zipInputStream = new ZipInputStream(imageFile.getInputStream())) {
             ZipEntry entry;
             while ((entry = zipInputStream.getNextEntry()) != null) {
@@ -42,6 +43,7 @@ public class BasicImageService implements ImageService {
 
                 ImageModel imageModel = new ImageModel();
                 imageModel.setLocation(file.getPath());
+                imageModel.setCategory(category);
                 imageRepository.save(imageModel);
             }
         } catch (IOException e) {
@@ -89,6 +91,7 @@ public class BasicImageService implements ImageService {
 
         return ImageInfoDto.builder()
                 .imageId(imageModel.getId())
+                .category(imageModel.getCategory())
                 .allVotesCounter(votesList.size())
                 .isArtVotesCounter((int) (votesList.stream().filter(v -> v == 1).count()))
                 .isNotArtVotesCounter((int) (votesList.stream().filter(v -> v == 0).count()))

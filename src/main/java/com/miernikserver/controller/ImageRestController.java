@@ -6,7 +6,6 @@ import com.miernikserver.domain.dto.RateImageDto;
 import com.miernikserver.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,8 +22,8 @@ public class ImageRestController {
     private final ImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
-        imageService.uploadImage(file);
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("category") String category) {
+        imageService.uploadImage(file, category);
         return ResponseEntity.ok().build();
     }
 

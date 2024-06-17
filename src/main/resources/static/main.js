@@ -89,9 +89,11 @@ async function sendVotesResult() {
 
 async function uploadImages() {
     const uploadFile = document.getElementById('uploadFile').files[0];
+    const imagesCategory = document.getElementById('category').value;
 
     const formData = new FormData();
     formData.append('file', uploadFile)
+    formData.append('category', imagesCategory);
 
     await fetch('http://localhost:8080/images/upload', {
         method: 'POST',

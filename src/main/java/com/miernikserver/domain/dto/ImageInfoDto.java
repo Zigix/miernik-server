@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ImageInfoDto {
     private Long imageId;
+    private String category;
     private Integer allVotesCounter;
     private Integer isArtVotesCounter;
     private Integer isNotArtVotesCounter;

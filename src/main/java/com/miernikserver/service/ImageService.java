@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ImageService {
 
-    void uploadImage(MultipartFile imageFile);
+    void uploadImage(MultipartFile imageFile, String category);
 
     DownloadImageDto downloadImage(Long imageId);
 

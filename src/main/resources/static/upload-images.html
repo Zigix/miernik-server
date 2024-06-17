@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="main.js"></script>
 </head>
 <body>
+
+    <p>
+        Możesz dodać zbiór nowych obrazów poprzez przesłanie skompresowanego pliku ZIP przez poniższy formularz
+    </p>
+    <form id="uploadImagesForm">
+        <input type="file" name="file" id="uploadFile" accept=".zip">
+    </form>
+    <button id="uploadImages" onclick="uploadImages();">Wyslij</button>
 
 </body>
 </html>

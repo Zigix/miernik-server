@@ -18,7 +18,7 @@ function updateCurrentIndexInStorage(value) {
 }
 
 
-window.onload = async function () {
+async function prepareAndLoadFirstImage() {
     const imagesIds = await getRandomImagesIdList();
     const currentIndex = 0;
     localStorage.setItem(IMAGES_IDS_KEY, JSON.stringify(imagesIds));
@@ -40,6 +40,8 @@ async function loadImageWithVotes(imageId) {
 
     yesVoteButtonElement.on('click', async () => await vote(imageId, 1));
     noVoteButtonElement.on('click', async () => await vote(imageId, 0));
+
+    updateCurrentIndexInStorage(getCurrentIndexFromStorage() + 1);
 }
 
 async function getRandomImagesIdList() {
@@ -67,7 +69,6 @@ async function vote(imageId, value) {
 
     if (currentIndex < imagesIds.length) {
         await loadImageWithVotes(imagesIds[currentIndex]);
-        updateCurrentIndexInStorage(currentIndex + 1);
     } else {
         await sendVotesResult();
         window.location.href = 'main.html';
@@ -86,3 +87,17 @@ async function sendVotesResult() {
     });
 }
 
+async function uploadImages() {
+    const uploadFile = document.getElementById('uploadFile').files[0];
+
+    const formData = new FormData();
+    formData.append('file', uploadFile)
+
+    await fetch('http://localhost:8080/images/upload', {
+        method: 'POST',
+        body: formData
+    }).then(res => {
+        alert('Plik poprawnie wysłany');
+    })
+        .catch(error => alert(error))
+}

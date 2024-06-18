@@ -18,8 +18,10 @@ p {
 }
 
 img {
-    width: 50%;
-    height: 50%;
+    max-width: 50%;
+    max-height: 50%;
+    width: auto;
+    height: auto;
     display: block;
     border: none;
     border-radius: 20px;
@@ -64,4 +66,10 @@ img {
 #no {
     background-image: url("ZLE.svg");
     background-repeat: no-repeat;
+}
+
+#logo {
+    background-image: url("logo.svg");
+    background-repeat: no-repeat;
+    width: 100%;
 }

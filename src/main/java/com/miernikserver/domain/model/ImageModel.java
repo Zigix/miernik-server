@@ -23,7 +23,19 @@ public class ImageModel {
 
     private String location;
 
-    @CollectionTable(name = "images_votes")
-    @ElementCollection
-    private List<Integer> votes = new ArrayList<>();
+    private int sumOfVotes;
+
+    private int yesVotes;
+
+    private int noVotes;
+
+    public void addYesVote() {
+        yesVotes = yesVotes + 1;
+        sumOfVotes = sumOfVotes + 1;
+    }
+
+    public void noYesVote() {
+        noVotes = noVotes + 1;
+        sumOfVotes = sumOfVotes + 1;
+    }
 }

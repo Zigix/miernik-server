@@ -13,7 +13,7 @@ public interface ImageService {
 
     DownloadImageDto downloadImage(Long imageId);
 
-    void rateListOfImages(List<RateImageDto> rateImageDtoList);
+    List<ImageInfoDto> rateListOfImages(List<RateImageDto> rateImageDtoList);
 
     ImageInfoDto getImageInfo(Long imageId);
 

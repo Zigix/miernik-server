@@ -48,8 +48,8 @@ public class ImageRestController {
     }
 
     @PostMapping("/vote")
-    public ResponseEntity<?> rateImage(@RequestBody List<RateImageDto> rateImageDtoList) {
-        imageService.rateListOfImages(rateImageDtoList);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<ImageInfoDto>> rateImage(@RequestBody List<RateImageDto> rateImageDtoList) {
+        List<ImageInfoDto> imageInfoDtoList = imageService.rateListOfImages(rateImageDtoList);
+        return ResponseEntity.ok(imageInfoDtoList);
     }
 }

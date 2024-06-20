@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -78,8 +79,29 @@ public class BasicImageService implements ImageService {
 
     @Override
     @Transactional
-    public void rateListOfImages(List<RateImageDto> rateImageDtoList) {
-        rateImageDtoList.forEach(i -> imageRepository.addVoteToImage(i.getImageId(), i.getVote()));
+    public List<ImageInfoDto> rateListOfImages(List<RateImageDto> rateImageDtoList) {
+        List<ImageInfoDto> imageInfoDtoList = new ArrayList<>();
+
+        for (RateImageDto rateImageDto : rateImageDtoList) {
+            ImageModel imageModel = imageRepository.findById(rateImageDto.getImageId()).orElseThrow();
+
+            switch (rateImageDto.getVote()) {
+                case 0 -> imageModel.noYesVote();
+                case 1 -> imageModel.addYesVote();
+            }
+
+            ImageInfoDto imageInfoDto = ImageInfoDto.builder()
+                    .imageId(imageModel.getId())
+                    .category(imageModel.getCategory())
+                    .allVotesCounter(imageModel.getSumOfVotes())
+                    .isArtVotesCounter(imageModel.getYesVotes())
+                    .isNotArtVotesCounter(imageModel.getNoVotes())
+                    .build();
+
+            imageInfoDtoList.add(imageInfoDto);
+        }
+
+        return imageInfoDtoList;
     }
 
     @Override
@@ -87,14 +109,13 @@ public class BasicImageService implements ImageService {
     public ImageInfoDto getImageInfo(Long imageId) {
         ImageModel imageModel = imageRepository.findById(imageId)
                 .orElseThrow();
-        List<Integer> votesList = imageModel.getVotes();
 
         return ImageInfoDto.builder()
                 .imageId(imageModel.getId())
                 .category(imageModel.getCategory())
-                .allVotesCounter(votesList.size())
-                .isArtVotesCounter((int) (votesList.stream().filter(v -> v == 1).count()))
-                .isNotArtVotesCounter((int) (votesList.stream().filter(v -> v == 0).count()))
+                .allVotesCounter(imageModel.getSumOfVotes())
+                .isArtVotesCounter(imageModel.getYesVotes())
+                .isNotArtVotesCounter(imageModel.getNoVotes())
                 .build();
     }
 

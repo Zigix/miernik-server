@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RateImageDto {
     private Long imageId;
-    private Integer vote;
+    private int vote;
 }

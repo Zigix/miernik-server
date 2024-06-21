@@ -73,3 +73,27 @@ img {
     background-repeat: no-repeat;
     width: 100%;
 }
+
+.display-all-images-container {
+    overflow: scroll;
+    padding: 10%;
+}
+
+.image-info-display-container {
+    margin: 5%;
+    align-content: center;
+    border-bottom: 2px solid black;
+}
+
+.image-display {
+    display: inline-block;
+    text-align: center;
+    max-height: 30%;
+    max-width: 50%;
+    width: auto;
+    height: auto;
+}
+
+.image-info-display {
+    display: inline-block;
+}

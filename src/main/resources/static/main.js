@@ -71,7 +71,7 @@ async function vote(imageId, value) {
         await loadImageWithVotes(imagesIds[currentIndex]);
     } else {
         await sendVotesResult();
-        window.location.href = 'main.html';
+        window.location.href = 'display-images-list.html';
     }
 }
 
@@ -102,4 +102,56 @@ async function uploadImages() {
         alert('Plik poprawnie wysłany');
     })
         .catch(error => alert(error))
+}
+
+async function loadListOfImages() {
+    const imagesIdsList = getImagesIdsListFromStorage();
+    let displayAllImagesContainerDiv = $("<div></div>").addClass("display-all-images-container");
+    $('body').append(displayAllImagesContainerDiv);
+
+    const response = await fetch('http://localhost:8080/images', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(imagesIdsList)
+    });
+
+    const imageInfoList = await response.json();
+
+    for (let i = 0; i < imageInfoList.length; i++) {
+        displayAllImagesContainerDiv.append(await createDivEntryInListView(imageInfoList[i]));
+    }
+}
+
+async function createDivEntryInListView(imageInfo) {
+    let imageDisplayContainerDiv = $("<div></div>").addClass("image-info-display-container");
+    let imageDisplayDiv = $("<div></div>").addClass("image-display");
+    let imageInfoDisplayDiv = $("<div></div>").addClass("image-info-display");
+
+    let categoryDisplayDiv = $("<div></div>").addClass("category-display");
+    let allVotesDisplayDiv = $("<div></div>").addClass("all-votes-display");
+    let yesVotesDisplayDiv = $("<div></div>").addClass("yes-votes-display");
+    let noVotesDisplayDiv = $("<div></div>").addClass("no-votes-display");
+
+    categoryDisplayDiv.text(`Kategoria: ${imageInfo.category}`)
+    allVotesDisplayDiv.text(`Wszystkich głosów: ${imageInfo.allVotesCounter}`);
+    yesVotesDisplayDiv.text(`Głosów na tak: ${imageInfo.isArtVotesCounter}`);
+    noVotesDisplayDiv.text(`Głosów na nie: ${imageInfo.isNotArtVotesCounter}`);
+
+    const imageData = await fetchImage(imageInfo.imageId);
+    const imgElement = $("<img alt=\"\">").attr("src", imageData);
+
+    imageDisplayDiv.append(imgElement);
+
+    imageInfoDisplayDiv.append(categoryDisplayDiv);
+    imageInfoDisplayDiv.append(allVotesDisplayDiv);
+    imageInfoDisplayDiv.append(yesVotesDisplayDiv);
+    imageInfoDisplayDiv.append(noVotesDisplayDiv);
+
+    imageDisplayContainerDiv.append(imageDisplayDiv);
+    imageDisplayContainerDiv.append(imageInfoDisplayDiv);
+
+    return imageDisplayContainerDiv;
 }

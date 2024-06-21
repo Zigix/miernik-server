@@ -120,6 +120,18 @@ public class BasicImageService implements ImageService {
     }
 
     @Override
+    @Transactional
+    public List<ImageInfoDto> getImagesInfos(List<Long> imagesIds) {
+        List<ImageInfoDto> imageInfoDtoList = new ArrayList<>();
+
+        for (Long imageId: imagesIds) {
+            imageInfoDtoList.add(getImageInfo(imageId));
+        }
+
+        return imageInfoDtoList;
+    }
+
+    @Override
     public List<Long> getRandomImagesIds(int counter) {
         List<Long> idList = imageRepository.findAllIds();
         Collections.shuffle(idList);

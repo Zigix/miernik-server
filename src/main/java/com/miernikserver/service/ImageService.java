@@ -17,5 +17,7 @@ public interface ImageService {
 
     ImageInfoDto getImageInfo(Long imageId);
 
+    List<ImageInfoDto> getImagesInfos(List<Long> imagesIds);
+
     List<Long> getRandomImagesIds(int counter);
 }

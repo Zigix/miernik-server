@@ -52,4 +52,9 @@ public class ImageRestController {
         List<ImageInfoDto> imageInfoDtoList = imageService.rateListOfImages(rateImageDtoList);
         return ResponseEntity.ok(imageInfoDtoList);
     }
+
+    @PostMapping
+    public ResponseEntity<List<ImageInfoDto>> getImagesInfos(@RequestBody List<Long> imagesIds) {
+        return ResponseEntity.ok(imageService.getImagesInfos(imagesIds));
+    }
 }
